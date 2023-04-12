@@ -9,7 +9,7 @@ interface ImageGalleryProps {
 
 const ImageGallery: FC<ImageGalleryProps> = ({ images }) => {
     return (
-        <SimpleGrid minChildWidth="250px" spacing={4}>
+        <SimpleGrid minChildWidth="300px" spacing={4} w="full">
             {images.map((image, key) => (
                 <ImageCard key={key} image={image} />
             ))}

@@ -1,0 +1,20 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.7.0
+    expose:
+      - 9200
+      - 9300
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=password
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      # - cluster.name=elasticsearch
+      # - bootstrap.memory_lock=true
+      # - "ES_JAVA_OPTS=-Xms512m -Xmx512m"

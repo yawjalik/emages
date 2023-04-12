@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { HStack, Input, VStack, ScaleFade, useToast } from "@chakra-ui/react";
+import { Flex, Input, VStack, ScaleFade, useToast, useMediaQuery } from "@chakra-ui/react";
 import base64encode from "../utils/base64encode";
 import UploadImageCard from "@/components/UploadImageCard";
 import { CreateImageType } from "@/components/imageTypes";
@@ -10,6 +10,8 @@ export default function UploadImages() {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const toast = useToast();
+
+  const [isDesktop] = useMediaQuery("(min-width: 30em)");
 
   const handleImage = async(e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -41,7 +43,6 @@ export default function UploadImages() {
       
       // Get image dimensions
       const { width, height } = imageimage;
-      console.log(width, height)
 
       const newImage: CreateImageType = {
         name: file.name,
@@ -55,7 +56,6 @@ export default function UploadImages() {
   }
 
   const handleUpload = async () => {
-    console.log(images);
     setLoading(true);
 
     // Checks
@@ -106,10 +106,10 @@ export default function UploadImages() {
           ))
         }
       </VStack>
-      <HStack justify="center">
+      <Flex flexDirection={isDesktop ? "row" : "column"} justify="center" gap={4}>
         <Input type="file" cursor="pointer" w="auto" accept="image/png" multiple onChange={handleImage} disabled={images.length >= 5} />
         <Input type="submit" cursor="pointer" name="upload" id="" w="auto" onClick={handleUpload} disabled={loading}/>
-      </HStack>
+      </Flex>
     </VStack>
   );
 }

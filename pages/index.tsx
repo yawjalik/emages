@@ -2,13 +2,15 @@ import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import ImageGallery from "@/components/ImageGallery";
-import { useToast, Spinner, Heading, VStack, ScaleFade } from "@chakra-ui/react";
+import { useToast, Spinner, Heading, Flex, useMediaQuery } from "@chakra-ui/react";
 import SearchBar from "@/components/SearchBar";
 
 const SearchImages: FC = () => {
   const [search, setSearch] = useState<string>("");
   const router = useRouter();
   const toast = useToast();
+
+  const [isDesktop] = useMediaQuery("(min-width: 30em)");
 
   const { data, isLoading, isFetching, refetch } = useQuery("images", async () => {
     const { q } = router.query;
@@ -27,17 +29,15 @@ const SearchImages: FC = () => {
   }, [router.query, refetch]);
 
   return (
-      <VStack spacing={10}>
+      <Flex direction="column" align="center" mx="auto" gap={10} w={isDesktop ? "80%" : "full"}>
         <SearchBar search={search} setSearch={setSearch} isLoading={isLoading} />
         {
           isLoading || isFetching ? <Spinner color="teal.500" emptyColor="gray.200" size="xl" thickness="4px" speed="0.65s"/> : 
           data ? 
-          <ScaleFade in={true}>
             <ImageGallery images={data} /> 
-          </ScaleFade>
           : <Heading size="lg">No images found</Heading>
         }
-      </VStack>
+      </Flex>
   );
 }
 

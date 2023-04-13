@@ -38,20 +38,22 @@ export default function UploadImages() {
 
       // Encode images
       const uri = await base64encode(file);
-      const imageimage = new Image;
-      imageimage.src = uri;
+      const htmlImage = new Image;
+      htmlImage.src = uri;      
       
       // Get image dimensions
-      const { width, height } = imageimage;
-
-      const newImage: CreateImageType = {
-        name: file.name,
-        description: "",
-        uri,
-        height: height,
-        width: width,
-      };
-      setImages((prev) => [...prev, newImage]);
+      htmlImage.onload = () => {
+        const { height, width } = htmlImage;
+        console.log(width, height)
+        const newImage: CreateImageType = {
+          name: file.name,
+          description: "",
+          uri,
+          height: height,
+          width: width,
+        };
+        setImages((prev) => [...prev, newImage]);
+      }
     }
   }
 

@@ -29,11 +29,11 @@ export default function UploadImages() {
       // Checks
       if (file.type !== "image/png") {
         toast({ title: "Only PNG image allowed", status: "error", duration: 3000, isClosable: true });
-        return;
+        continue;
       }
       if (file.size > 5000000) {
         toast({ title: "Image size must be less than 5MB", status: "error", duration: 3000, isClosable: true });
-        return;
+        continue;
       }
 
       // Encode images
@@ -74,20 +74,25 @@ export default function UploadImages() {
       }
     }
 
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(images),
-    });
-
-    if (response.status === 201) {
-      toast({ title: "Images uploaded", status: "success", duration: 3000, isClosable: true });
-      router.push("/", undefined, { shallow: false });
-    } else {
-      const { message } = await response.json();
-      toast({ title: message ? message : "Failed to upload images", status: "error", duration: 3000, isClosable: true });
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(images),
+      });
+  
+      if (response.status === 201) {
+        toast({ title: "Images uploaded", status: "success", duration: 3000, isClosable: true });
+        router.push("/", undefined, { shallow: false });
+      } else {
+        const { message } = await response.json();
+        toast({ title: message ? message : "Failed to upload images", status: "error", duration: 3000, isClosable: true });
+      }
+    } catch (err) {
+      console.log(err);
+      toast({ title: "Failed to upload images", status: "error", duration: 3000, isClosable: true });
     }
     setLoading(false);
   }

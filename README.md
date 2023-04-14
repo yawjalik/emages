@@ -2,6 +2,11 @@
 
 A web application/service for uploading, validating, storing, and searching PNG images by description. This app primarily runs on NextJS with MongoDB and ElasticSearch.
 
+## Preview
+<img width="1437" alt="image" src="https://user-images.githubusercontent.com/70761798/231952007-30685298-4858-4505-8a09-c9fe7c569dc4.png">
+<img width="1416" alt="image" src="https://user-images.githubusercontent.com/70761798/231952253-086973c1-f9ba-45cd-86c8-68f10255758a.png">
+
+
 ## Setup
 
 ### Prerequisites
